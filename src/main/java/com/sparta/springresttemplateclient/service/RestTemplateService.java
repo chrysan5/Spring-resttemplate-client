@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -92,8 +93,28 @@ public class RestTemplateService {
         return responseEntity.getBody();
     }
 
+    //헤더에 데이터를 넣기위한 방식 - exchange 메서드를 사용, 만든다음 RequestEntity 객체로 보낸다
     public List<ItemDto> exchangeCall(String token) {
-        return null;
+        // 요청 URL 만들기
+        URI uri = UriComponentsBuilder //전체 리스트를 조회하는 것이므로 따로 쿼리를 주지 않는다.
+                .fromUriString("http://localhost:7070")
+                .path("/api/server/exchange-call")
+                .encode()
+                .build()
+                .toUri();
+        log.info("uri = " + uri);
+
+        //requestBody에 넣을 데이터
+        User user = new User("Robbie", "1234");
+
+        RequestEntity<User> requestEntity = RequestEntity
+                .post(uri) //body가 있으니까 post방식이다
+                .header("X-Authorization", token) //헤더에 토큰을 담아서 server로 보낸다
+                .body(user);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+
+        return fromJSONtoItems(responseEntity.getBody());
     }
 
     //여러개의 data는 이런식으로 넘어온다

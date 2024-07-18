@@ -36,6 +36,8 @@ public class RestTemplateController {
 
     @GetMapping("/exchange-call")
     public List<ItemDto> exchangeCall(@RequestHeader("Authorization") String token) {
+    //클라이언트쪽 서버에서 토큰을 받을 예정 - response 또는 request 헤더에 담긴 토큰을 받음 (쿠키이용x)
+    //@RequestHeader 어노테이션으로 키 Authorization인 값을 뽑아올 수 있음
         return restTemplateService.exchangeCall(token);
     }
 }
