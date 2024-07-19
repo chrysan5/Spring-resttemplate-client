@@ -1,13 +1,13 @@
-package com.sparta.springresttemplateclient;
+package com.sparta.naverAPI;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringResttemplateClientApplication {
+public class naverAPIApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringResttemplateClientApplication.class, args);
+        SpringApplication.run(naverAPIApplication.class, args);
     }
 
 }
